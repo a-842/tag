@@ -18,7 +18,7 @@ def index():
     return 'Hello, World!'
 
 
-@app.route('/register', methods=['POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     data = request.get_json()
     username = data.get('username')
@@ -35,7 +35,7 @@ def register():
 
     return jsonify({'message': 'User registered successfully'}), 201
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     data = request.get_json()
     username = data.get('username')
@@ -52,7 +52,7 @@ def login():
 
     return jsonify({'message': 'Login successful', 'user_id': user['id']}), 200
 
-@app.route('/create_room', methods=['POST'])
+@app.route('/create_room', methods=['GET', 'POST'])
 def create_room():
     data = request.get_json()
     room_name = data.get('room_name')
