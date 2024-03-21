@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_socketio import SocketIO, emit
 import sqlite3
 
@@ -16,6 +16,10 @@ def get_db_connection():
 @app.route('/')
 def index():
     return 'Hello, World!'
+
+@app.route('/reg')
+def reg():
+    return render_template('register.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
