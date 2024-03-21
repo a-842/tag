@@ -41,11 +41,11 @@ def register():
 def login_page():
     return render_template('login.html')
 
+
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -57,6 +57,7 @@ def login():
         return jsonify({'error': 'Invalid username or password'}), 401
 
     return jsonify({'message': 'Login successful', 'user_id': user['id']}), 200
+
 
 @app.route('/create_room', methods=['POST'])
 def create_room():
