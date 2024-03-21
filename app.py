@@ -17,12 +17,9 @@ def get_db_connection():
 def index():
     return 'Hello, World!'
 
-@app.route('/reg')
-def reg():
-    return render_template('registration.html')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
     username = data.get('username')
@@ -39,7 +36,12 @@ def register():
 
     return jsonify({'message': 'User registered successfully'}), 201
 
-@app.route('/login', methods=['GET', 'POST'])
+
+@app.route('/login_page')
+def login_page():
+    return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
     username = data.get('username')
@@ -56,7 +58,7 @@ def login():
 
     return jsonify({'message': 'Login successful', 'user_id': user['id']}), 200
 
-@app.route('/create_room', methods=['GET', 'POST'])
+@app.route('/create_room', methods=['POST'])
 def create_room():
     data = request.get_json()
     room_name = data.get('room_name')
