@@ -13,6 +13,11 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+@app.route('/')
+def index():
+    return 'Hello, World!'
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
