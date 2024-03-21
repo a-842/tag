@@ -1,7 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_socketio import SocketIO, emit
 import sqlite3
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret_key'
+socketio = SocketIO(app)
+
 DATABASE = 'database.db'
 
 def get_db_connection():
@@ -60,30 +64,12 @@ def create_room():
 
     return jsonify({'message': 'Room created successfully', 'room_id': room_id}), 201
 
-@app.route('/join_room', methods=['POST'])
-def join_room():
-    data = request.get_json()
+@socketio.on('join_room')
+def handle_join_room(data):
     room_id = data.get('room_id')
-
-    if not room_id:
-        return jsonify({'error': 'Room ID is required'}), 400
-
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM rooms WHERE id = ?", (room_id,))
-    room = cursor.fetchone()
-
-    if not room:
-        conn.close()
-        return jsonify({'error': 'Room not found'}), 404
-
-    # Add logic to join room here (e.g., updating user's room_id in the database)
-
-    conn.commit()
-    conn.close()
-
-    return jsonify({'message': 'Joined room successfully'}), 200
+    join_room(room_id)
+    emit('room_joined', {'message': 'Joined room successfully'}, room=room_id)
 
 if __name__ == '__main__':
-    app.run(debug=True, host="0.0.0.0", port=80)
+    socketio.run(app, debug=True, host="0.0.0.0", port=80)
 
