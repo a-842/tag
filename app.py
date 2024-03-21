@@ -19,7 +19,7 @@ def index():
 
 @app.route('/reg')
 def reg():
-    return render_template('register.html')
+    return render_template('registration.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
