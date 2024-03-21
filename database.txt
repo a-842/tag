@@ -1,0 +1,19 @@
+Database format:
+	
+Table: Room
+
+	- UUID 
+	- code
+	- number_of_players
+
+Table: Users 
+
+	- username
+	- password
+
+Table: Messages 
+
+	- UUID
+	- roomUUID
+	- senderusername
+	- content
